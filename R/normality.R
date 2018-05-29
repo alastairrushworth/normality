@@ -11,6 +11,7 @@ normality <- function(values){
   # get stat and p-values from nor.tests
   for(i in 1:6) normal_test[[i]] <- c(nor_tests[[i]]$method, nor_tests[[i]]$statistic, nor_tests[[i]]$p.value)
   # get stat and p-values from shp test
+  shp              <- shapiro.test(values)
   normal_test[[7]] <- c("Minimum Hellinger Distance normality test", shp[[1]], shp[[2]])
   # combine into a single tibble
   normal_df           <- as.tibble(do.call("rbind", normal_test))
