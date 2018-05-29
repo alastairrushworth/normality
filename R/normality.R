@@ -14,7 +14,7 @@ normality <- function(values){
   shp              <- shapiro.test(values)
   normal_test[[7]] <- c("Minimum Hellinger Distance normality test", shp[[1]], shp[[2]])
   # combine into a single tibble
-  normal_df           <- as.tibble(do.call("rbind", normal_test))
+  normal_df           <- as_tibble(do.call("rbind", normal_test))
   colnames(normal_df) <- c("Test", "Statistic", "p.value")
   # convert cols 2 & 3 to numeric
   class(normal_df$Statistic) <-  class(normal_df$p.value) <- "numeric"
