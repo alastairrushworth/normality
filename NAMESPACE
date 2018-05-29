@@ -1,2 +1,2 @@
 export(normality)
-import(randomForest, rvest, stringr, tibble, xml2)
+import(nortest, stats, mhde)
