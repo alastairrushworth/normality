@@ -4,7 +4,7 @@ Title: normality: several standard normality tests in a single wrapper.
 Version: 0.1
 Date: 2018-05-29
 Depends: R (>= 3.0.0)
-Imports: tibble, nortest, stats, mhde
+Imports: mhde, normtest, nortest, moments, stats, tibble
 Author: Alastair Rushworth
 Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
 Description: Get all standard normality tests in a single R wrapper.
