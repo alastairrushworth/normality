@@ -1,13 +1,13 @@
 # normality
-Several standard normality tests in a single wrapper.
+17 standard normality tests in a single wrapper.
 
-__installation__ 
+__Installation__ 
 
 ```r
 devtools::install_github("alastairrushworth/normality", dependencies = T)
 ```
 
-__usage__
+__Usage__
 
 normal data
 
