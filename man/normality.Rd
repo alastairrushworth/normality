@@ -1,6 +1,6 @@
 \name{normality}
 \alias{normality}
-\title{normality: all standard univariate normality tests in a single wrapper.}
+\title{normality: 17 standard univariate normality tests in a single wrapper.}
 \usage{
 normality(values)
 }
@@ -8,9 +8,9 @@ normality(values)
 \item{values}{A vector of values}
 }
 \value{
-\item{}{A tibble containing the results of performing Cramer-von Mises, Shapiro-Francia, Pearson chi-square, Kolmogorov-Smirnov, Anderson-Darling, Shapiro-Wilk test.}
+\item{}{A tibble containing the results of performing Adjusted Jarque-Bera, Anderson-Darling, Anscombe-Glynn, Bonett-Seier, Bonett-Seier, D'Agostino skewness, Frosini, Geary, Hegazy-Green, Jarque-Bera, Lilliefors, Minimum Hellinger Distance, Pearson chi-square, Shapiro-Francia, Shapiro-Wilk, Spiegelhalter, Weisberg-Bingham tests.}
 \description{
-The package is just a simple wrapper to the \code{nor.test}, \code{stats} and \code{mhde} packages where these functions are implemented.
+The package is just a simple wrapper to the \code{moments}, \code{normtest}, \code{nortest}, \code{stats} and \code{mhde} packages where these functions are implemented.
 }
 \examples{
 # not run:

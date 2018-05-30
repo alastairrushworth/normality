@@ -1,6 +1,6 @@
 Package: normality
 Type: Package
-Title: normality: several standard normality tests in a single wrapper.
+Title: normality: 17 standard normality tests in a single wrapper.
 Version: 0.1
 Date: 2018-05-29
 Depends: R (>= 3.0.0)
