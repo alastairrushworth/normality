@@ -1,3 +1,32 @@
+#' Normality: 17 standard univariate normality tests in a single wrapper.
+#' @details The package is just a simple wrapper to the \code{moments}, \code{normtest}, \code{nortest}, \code{stats} and \code{mhde} packages where these functions are implemented.
+#' @param values A numerical vector of values
+#' @return  A tibble containing the results of performing the following normality tests:
+#' \itemize{
+#' \item Adjusted Jarque-Bera
+#' \item Anderson-Darling
+#' \item Anscombe-Glynn
+#' \item Bonett-Seier
+#' \item D'Agostino skewness
+#' \item Frosini
+#' \item Geary
+#' \item Hegazy-Green
+#' \item Jarque-Bera
+#' \item Lilliefors
+#' \item Minimum Hellinger Distance
+#' \item Pearson chi-square
+#' \item Shapiro-Francia
+#' \item Shapiro-Wilk
+#' \item Spiegelhalter
+#' \item Weisberg-Bingham
+#' }
+#' @examples
+#' # Test normal random deviates:
+#' values <- rnorm(100)
+#' normality(values)
+#' @export
+#' @importFrom tibble as_tibble
+#' @author Alastair Rushworth
 
 normality <- function(values){
   if(!is.numeric(values)) stop("values must be a numeric vector")

@@ -9,6 +9,8 @@ Maintainer: Alastair Rushworth <alastairmrushworth@gmail.com>
 Description: Get all standard normality tests in a single R wrapper.
 License: GPL-2
 LazyLoad: yes
+Encoding: UTF-8
 ByteCompile: yes
 Repository: CRAN
 Suggests: testthat
+RoxygenNote: 6.1.1

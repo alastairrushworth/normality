@@ -1,0 +1,33 @@
+---
+output: github_document
+---
+
+
+# normality
+
+[![Build Status](https://travis-ci.org/alastairrushworth/normality.svg?branch=master)](https://travis-ci.org/alastairrushworth/normality)
+
+
+17 standard normality tests in a single wrapper.
+
+
+Installation 
+---
+
+```{r setup,  eval = FALSE}
+library(devtools)
+install_github("alastairrushworth/normality")
+```
+
+Usage
+---
+
+Generate some normal data and perform the normality tests.
+
+```{r pressure, echo=FALSE}
+library(normality)
+
+set.seed(2019)
+normality(rnorm(100))
+```
+
