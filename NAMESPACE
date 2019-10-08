@@ -1,2 +1,2 @@
 export(normality)
-import(nortest, normtest, moments, stats, mhde, tibble)
+import(nortest, normtest, moments, stats, tibble)
