@@ -2,31 +2,6 @@
 # https://cran.r-project.org/src/contrib/Archive/mhde/
 
 mhde.hdis <- function( NGauss, Nsubs, WG, GpdfSqrt, NpdfSqrt, Xdel2 ) {
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  #' mhde.hdis
-  #
-  #'@description
-  #'   This function evaluates the Hellinger distance between the kernel-based density function and the normal
-  #'   distribution function.  The normal distribution function is defined at a location and scale in the calling
-  #'   function.  Both the kernel density and the normal density are provided to this function as square roots.
-  #
-  # History:
-  #    Paul W. Eslinger : 17 Aug 2015 : Original source
-  #
-  # Parameters:
-  #' @param   NGauss      Number of Gauss integration intervals
-  #' @param   Nsubs       Number of substeps in each Gauss integration interval
-  #' @param   WG          Vector of weights for the Gauss-Legendre integration
-  #' @param   GpdfSqrt    Vector of the square root of the data-based kernel density function
-  #' @param   NpdfSqrt    Vector of the normal distribution
-  #' @param   Xdel2       Delta step used in setting up the integration grid.  Needed for scaling purposes.
-  #
-  # Returned values:
-  #' @return   Hdis        Value of the Hellinger distance
-  #
-  #-------------------------------------------------------------------------------------------------------------
-  #
   Hdis <- 0.0
   idx <- 0
   for(i in 1:NGauss ){
@@ -42,30 +17,7 @@ mhde.hdis <- function( NGauss, Nsubs, WG, GpdfSqrt, NpdfSqrt, Xdel2 ) {
 
 
 mhde.checkparam <- function( EstLoc, EstSca, MinLocEst, MaxLocEst, MinScaEst, MaxScaEst ) {
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  #'mhde.checkparam
-  #
-  #'@description
-  #'   This function returns a numeric error code that is nonzero if the location or scale estimates are
-  #'   outside reasonable rnges.
-  #
-  # History:
-  #   Paul W. Eslinger : 17 Aug 2015 : Original source
-  #
-  # Parameters:
-  #' @param  EstLoc      Location estimate
-  #' @param   EstSca      Scale estimate
-  #' @param   MinLocEst   Minimum reasonable location estimate
-  #' @param   MaxLocEst   Maximum reasonable Location estimate
-  #' @param   MinScaEst   Minimum reasonable scale estimate
-  #' @param   MaxScaEst   Maximim reasonable scale estimate
-  #
-  # Returned values:
-  #' @return   ierr        Numeric error code (0=reasonable estimates)
-  #
-  #-------------------------------------------------------------------------------------------------------------
-  ierr <- 0
+ ierr <- 0
   if( EstLoc < MinLocEst ) ierr <- 16
   if( EstLoc > MaxLocEst ) ierr <- 17
   if( EstSca < MinScaEst ) ierr <- 18
@@ -76,44 +28,6 @@ mhde.checkparam <- function( EstLoc, EstSca, MinLocEst, MaxLocEst, MinScaEst, Ma
 
 mhde.calcest <- function(EstLoc, EstSca, MaxIter, NGauss, Nsubs, Xint, WG, GpdfSqrt, Xdel2, EpsLoc, EpsSca,
                          MinLocEst, MaxLocEst, MinScaEst, MaxScaEst ) {
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  #' mhde.calcest
-  #
-  #' @description
-  #'   This function calculates the location and scale estimates corresponding to the minimum Hellinger
-  #'   distance.  A Newton-Rhapson method with analytical derivatives is used.
-  #
-  # History:
-  #    Paul W. Eslinger : 17 Aug 2015 : Original source
-  #
-  # Parameters:
-  #' @param   EstLoc      Location estimate
-  #' @param   EstSca      Scale estimate
-  #' @param   MaxIter     The maximum number of iterations allowed
-  #' @param   NGauss      Number of Gauss integration intervals
-  #' @param   Nsubs       Number of substeps in each Gauss integration interval
-  #' @param   Xint        Vector of X values for evaluating the Hellinger distance integral
-  #' @param   WG          Vector of weights for the Gauss-Legendre integration
-  #' @param   GpdfSqrt    Vector of the square root of the data-based kernel density function
-  #' @param   Xdel2       Delta step used in setting up the integration grid.  Needed for scaling purposes.
-  #' @param   EpsLoc      The location epsilon for convergence
-  #' @param   EpsSca      The scale epsilon for convergence
-  #' @param   MinLocEst   Minimum reasonable location estimate
-  #' @param   MaxLocEst   Maximum reasonable Location estimate
-  #' @param   MinScaEst   Minimum reasonable scale estimate
-  #' @param   MaxScaEst   Maximim reasonable scale estimate
-  #
-  #' @return list containing
-  #' \describe{
-  #'  \item {Hloc}        {Location estimate for the minimized distance}
-  #'   \item{Hsca}        {Scale estimate for the minimized distance}
-  #'   \item{myiter}      {Number of iterations performed}
-  #'   \item{ierr}        {Numeric error code (0=reasonable estimates)}
-  #'   }
-  #
-  #-------------------------------------------------------------------------------------------------------------
-  #
   ierr <- 0
   Hloc <- EstLoc
   Hsca <- EstSca
@@ -174,33 +88,6 @@ mhde.calcest <- function(EstLoc, EstSca, MaxIter, NGauss, Nsubs, Xint, WG, GpdfS
 }
 
 mhde.partial <- function(X,Mean,Sigma) {
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  #' mhde.partial
-  #
-  #' @description
-  #'   This function evaluates the first and second partial derivatives of the square root of the normal density
-  #'   function with respect to location and scale.
-  #
-  # History:
-  #    Paul W. Eslinger : 17 Aug 2015 : Original source
-  #
-  # Parameters:
-  #' @param   X       Location (X value) for evaluating the partial derivative
-  #' @param   Mean    Mean of the normal density function
-  #' @param   Sigma   Standard deviation of the normal density function
-  #
-  #' @return a list containing
-  #' \describe{
-  #'   \item{pl}    {Partial derivative with respect to location}
-  #'   \item{ps}    {Partial derivative with respect to scale}
-  #'   \item{pll}   {Second partial derivative with respect to location}
-  #'   \item{pls}   {Second partial derivative with respect to location and scale}
-  #'   \item{pss}   {Second partial derivative with respect to scale}
-  #'   }
-  #
-  #-------------------------------------------------------------------------------------------------------------
-  # const = 2**(-5/4) * PI**(-1/4)
   const <- 0.31580938887
   #
   z <- (X-Mean)/Sigma
@@ -224,24 +111,7 @@ mhde.partial <- function(X,Mean,Sigma) {
 }
 
 mhde.loadpval <- function() {
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  #' mhde.loadpval
-  #
-  #' @description
-  #'   Load the coeficient data from which to calculate the p values
-  #
-  # History:
-  #   Paul W. Eslinger :  1 Sep 2015 : Original source
-  #
-  # Parameters:
-  #   None
-  #
-  #' @return
-  #'   pcoef   A matrix of coefficients
-  #
-  #-------------------------------------------------------------------------------------------------------------
-  ctmp <- c(
+ ctmp <- c(
     0.068768,0.069260,0.070177,0.070900,0.071478,0.071973,0.072421,0.072828,0.073208,
     0.073563,0.073902,0.074223,0.074527,0.074820,0.075100,0.075368,0.075628,0.075881,
     0.076125,0.076359,0.076584,0.076805,0.077795,0.078768,0.079773,0.080808,0.082944,
@@ -751,29 +621,6 @@ mhde.loadpval <- function() {
 }
 
 mhde.pval <- function(pcoef,Nsize,Hdis) {
-  
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  #'mhde.pval
-  #
-  #' @description
-  #'   This function computes the upper tail probability level for a computed Hellinger distance given the
-  #'   sample size.
-  #
-  # History:
-  #    Paul W. Eslinger : 17 Aug 2015 : Original source
-  #
-  # Parameters:
-  #' @param   pcoef   A matrix of coefficients used in functional fits for the tail probabilities
-  #' @param   Nsize   Number of data values (sample size)
-  #' @param   Hdis    The value of the Hellinger distance
-  #
-  # Returned values:
-  #' @return   pval  Upper tail p value.
-  #
-  #-------------------------------------------------------------------------------------------------------------
-  #
-  # Explicity define the alpha levels corresponding to the coefficients in the data file
   nalpha <- 63
   alpha <- c(0.0001,0.001,0.005,0.01,0.015,0.02,0.025,0.03,0.035,0.04,
              0.045,0.05,0.055,0.06,0.065,0.07,0.075,0.08,0.085,0.09,
@@ -831,25 +678,6 @@ mhde.pval <- function(pcoef,Nsize,Hdis) {
   return(1.0-pval)
 }
 
-
-#-------------------------------------------------------------------------------------------------------------
-#' Utility function for retrieving \eqn{c_n}{Cn} value for any sample size
-#
-#'@description
-#'   This function evaluates the \eqn{c_n}{Cn} bandwidth value for the Epanechnikov kernel based on the sample size.
-#
-# History:
-#    Paul W. Eslinger : 17 Aug 2015 : Original source
-#
-# Parameters:
-#' @param   Nsize   Number of values in the sample data set
-#
-# Returned value:
-#' @return   The Epanechnikov kernel bandwidth parameter for the sample size.
-#
-#' @export
-#
-#-------------------------------------------------------------------------------------------------------------
 mhde.cn <- function(Nsize) {
   
   if( Nsize ==  5 ) return(1.7738)
@@ -907,93 +735,6 @@ mhde.cn <- function(Nsize) {
   if( Nsize > 8001 ) return(2.4130*Nsize**(-0.29332))
 }
 
-#-------------------------------------------------------------------------------------------------------------
-#
-#' Minimum Hellinger Distance Test for Normality
-#
-#' @description
-#'   This function fits a normal distribution to a data set using a mimimum Hellinger distance approach and
-#'   then performs a test of hypothesis that the data are from a normal distribution.
-#
-#' @details
-#'   Let \emph{f(x)} and \emph{g(x)} be absolutely continuous probability density functions.  The square of the
-#'   Hellinger distance can be written as \eqn{H^2 = 1 - \int\sqrt{f(x)g(x)}dx}.  For this package, \emph{f(x)}
-#'   denotes the family of normal densities and \emph{g} is a data-based density obtained by using the Ephanechnikov
-#'   kernel. The kernel has the form \eqn{w(z)=0.75(1-z^2 )} for \samp{-1<z<1} and 0 elsewhere.  Let the
-#'   \emph{n} sample data be denoted by \eqn{x_1}{X1}, ..., \eqn{x_n}{Xn}.  The data-based kernel density at any
-#'   point \emph{y} is calculated from \deqn{g_n(y) = \frac{1}{n s_n c_n }\sum\limits_{i=1}^n w(\frac{y-x_i}{s_n c_n})}
-#'
-#'   A Newton-Rhapson method with analytical derivatives is to determine the minimum Hellinger distance.
-#'   Numerical integration is done using a 6-point composite Gauss-Legendre technique.
-#
-# Parameters:
-#' @param   DataVec       The data are supplied by the user in a numeric vector.  The length of the vector determines the number of data values.
-#
-#' @param   NGauss        The number of subintervals for the Gauss-Legendre integration techniques is controlled by \code{NGauss}.  A default value of 100 is used.  A minimum of 25 is enforced.
-#
-#' @param   MaxIter       The maximum number of iterations that can occur in evaluating the minimum Hellinger distance is controlled by \code{MaxIter}.  A default of 25 is used.  A minimum of 1 is enforced.
-#
-#' @param   InitLocation  An optional initial location estimate can be defined using \code{InitLocation}.  The data median is the default value.
-#
-#' @param   InitScale     An optional initial scale estimate can be defined using \code{InitScale}. The data median absolute deviation is the default value.
-#
-#' @param   EpsLoc        The epsilon (in data units) below which the iterative minimization approach declares convergence in the location estimate is controlled by \code{EpsLoc}.  \code{EpsLoc} should be set to give approximately 5 digits of accuracy in the location estimate. A default value of 0.0001 is used.
-#
-#' @param   EpsSca        The epsilon (in data units) below which the iterative minimization approach declares convergence in the SCALE estimate is controlled by \code{EpsSca}.  \code{EpsSca} should be set to give approximately 5 digits of accuracy in the scale estimate. A default value of 0.0001 is used.
-#
-#' @param   Silent        A value of FALSE for \code{Silent} writes several results to the R console.  Use \code{Silent}=TRUE to eliminate the output.
-#
-#' @param   Small         A value of FALSE for \code{Small} returns a list of 11 objects.  Use \code{Small}=TRUE to return a shorter list containing only the Hellinger distance and the p-value.
-#
-# Returned values:
-#' @return   Values returned in a list include the following items:
-#' \itemize{
-#'     \item {Minimized Hellinger distance}
-#'     \item {p-value for the minimized distance}
-#'     \item {Initial location used in the iterative solution}
-#'     \item {Initial scale used in the iterative solution}
-#'     \item {Final location estimate}
-#'     \item {Final scale estimate}
-#'     \item {Sample size}
-#'     \item {Kernel density bandwidth parameter}
-#'     \item {Vector of x values used in the integration for the Hellinger distance}
-#'     \item {Vector of nonparametric density values at the x values used in the integration}
-#'     \item {Vector of normal density values for the estimated location and scale at the x values used in integration}
-#' }
-#
-# References:
-#
-#' @references
-#'   Epanechnikov, VA. 1969. "Non-Parametric Estimation of a Multivariate Probability Density."
-#'   Theory of Probability and its Applications 14(1):153-156. doi \url{http://dx.doi.org/10.1137/1114019}
-#'
-#'   Hellinger, E. 1909. "Neue Begrundung Der Theorie Quadratischer Formen Von Unendlichvielen
-#'   Veranderlichen." Journal fur die reine und angewandte Mathematik 136:210-271.
-#'   doi \url{http://dx.doi.org/10.1515/crll.1909.136.210}
-#
-#   Eslinger, Paul W, and Wayne A Woodward. 1991. "Minimum Hellinger Distance Estimation for Normal Models."
-#   Journal of Statistical Computation and Simulation 39(1-2):95-114. doi http://dx.doi.org/10.1080/00949659108811342
-#
-#   Tjalling J. Ypma. 1995. "Historical development of the Newton-Raphson method", SIAM Review 37(4), 531-551.
-#   doi:http://dx.doi.org/10.1137/1037125.
-#
-#   Mike "Pomax" Kamermans, 2011.  "Primer on Bezier curves"
-#   http://pomax.github.io/bezierinfo/legendre-gauss.html
-#
-#' @author
-#'   Paul W. Eslinger and Heather M. Orr
-#
-#' @examples
-#' ## example with a normal data set
-#' mhde.test(rnorm(20,0.0,1.0),Small=TRUE)
-#'
-#' ## example with a uniform data set including example plot
-#' MyList <- mhde.test(runif(25,min=2,max=4))
-#' mhde.plot(MyList)
-#
-#' @export
-#' @importFrom stats dnorm mad median sd
-#-------------------------------------------------------------------------------------------------------------
 mhde.test <- function(DataVec,NGauss=100,MaxIter=25,InitLocation,InitScale,EpsLoc=0.0001,EpsSca=0.0001,
                       Silent=FALSE,Small=FALSE ) {
   
@@ -1159,35 +900,4 @@ mhde.test <- function(DataVec,NGauss=100,MaxIter=25,InitLocation,InitScale,EpsLo
   # Return the results in a list
   if( Small ) {return(list(Hdis,pvalue))}
   return(list(Hdis,pvalue,InitLocation,InitScale,Estimate[[1]],Estimate[[2]],Nsize,Cne,Xint,Gpdf,Npdf))
-}
-
-#-------------------------------------------------------------------------------------------------------------
-#' Plot the non-parametric and normal densities
-#
-#' @description
-#'   Simple plot function to display the data-based kernel density and the normal density for the final location and scale estimates.
-#
-# History:
-#    Paul W. Eslinger : 17 Aug 2015 : Original source
-#
-# Parameters:
-#' @param   ListOut    The output list from \code{mhde.test}.  The argument \code{Small} for \code{mhde.test} must have the value FALSE.
-#
-# Returned values:
-#   None.
-#' @export
-#' @importFrom graphics legend lines plot
-#-------------------------------------------------------------------------------------------------------------
-mhde.plot <- function(ListOut) {
-  #
-  # Plot range
-  xrange <- range( ListOut[[9]] )
-  yrange <- range( c(ListOut[[10]]),(ListOut[[11]]) )
-  yrange[1] <- 0.0
-  plot( xrange, yrange, type="n", xlab="Sample Data Range", ylab="Proability Density",
-        main="Kernel and Normal Densities", col.lab="black", col.main="black" )
-  lines(ListOut[[9]], ListOut[[10]], type="l", lwd=2.5, lty=1, pch=18)
-  lines(ListOut[[9]], ListOut[[11]], type="l", lwd=2.5, lty=1, pch=19, col="red")
-  legend(xrange[1], yrange[2], legend=c("normal","kernel"), cex=0.9, col=c("red","black"),
-         pch=c(18,19), lty=c(1,1), title="Densities")
 }
