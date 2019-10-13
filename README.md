@@ -8,6 +8,9 @@ Status](https://travis-ci.org/alastairrushworth/normality.svg?branch=master)](ht
 
 ## Installation
 
+You can use `devtools` to install `normality` directly from the github
+repo
+
 ``` r
 library(devtools)
 install_github("alastairrushworth/normality")
@@ -16,6 +19,13 @@ install_github("alastairrushworth/normality")
 ## Usage
 
 Generate some normal data and perform the normality tests.
+
+``` r
+library(normality)
+
+set.seed(2019)
+normality(rnorm(100))
+```
 
     ## # A tibble: 17 x 3
     ##    Test                                           statistic p.value

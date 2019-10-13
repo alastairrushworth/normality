@@ -14,6 +14,8 @@ output: github_document
 Installation 
 ---
 
+You can use `devtools` to install `normality` directly from the github repo
+
 ```{r setup,  eval = FALSE}
 library(devtools)
 install_github("alastairrushworth/normality")
@@ -24,7 +26,7 @@ Usage
 
 Generate some normal data and perform the normality tests.
 
-```{r pressure, echo=FALSE}
+```{r pressure, echo=TRUE}
 library(normality)
 
 set.seed(2019)
